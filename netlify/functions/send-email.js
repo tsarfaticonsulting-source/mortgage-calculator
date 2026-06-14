@@ -22,19 +22,96 @@ exports.handler = async (event) => {
   }
 
   const today = new Date().toLocaleDateString('he-IL');
-  const LOGO_B64 = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjE1MCAyMDAgMTQyMCA0MjAiPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik0xNDM5LjQ0LDM5NC40NWwtMjkuMTktMjkuMTl2LTg0LjA0YzAtNS42OS00LjYxLTEwLjMtMTAuMy0xMC4zaC0yNS4yOWMtNS42OSwwLTEwLjMsNC42MS0xMC4zLDEwLjN2MzguMTVsLTUxLjMtNTEuMy4xNy0uMTctMzQuNDgtMzQuNDhjLTEyLjc0LTEyLjc0LTMzLjM5LTEyLjc0LTQ2LjEyLDBsLTI1NS43NywyNTUuNzdjLTQuNyw0LjctNC43LDEyLjMxLDAsMTdsNDAuNTMsNDAuNTNjNC43LDQuNywxMi4zMSw0LjcsMTcsMGwyMjEuMTItMjIxLjEyLDEyNi4zOCwxMjYuMzhjNC43LDQuNywxMi4zMSw0LjcsMTcsMGw0MC41My00MC41M2M0LjctNC43LDQuNy0xMi4zMSwwLTE3WiIvPgogIDxjaXJjbGUgZmlsbD0iI2ZmNmY0MCIgY3g9IjEyOTcuNTgiIGN5PSI0OTYuMTgiIHI9IjYwLjYiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNNTcwLjUxLDMyNi4xMWgtMjkuODl2LTU0LjUxaDI5Ljg5djU0LjUxWiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik02NjkuMDgsMzY0LjI5aC0yOS44OXYtNjkuMzdoLTE4LjkydjU5LjI2YzAsMi4zNi0uOTIsNC42NC0yLjc2LDYuODItMS44NCwyLjE5LTQuMzUsMy4yOC03LjUyLDMuMjhoLTMxLjd2LTIzLjMyaDEyLjI3di02OS4zN2g2Ni4xN2M4LjIzLDAsMTIuMzUsNC4zNSwxMi4zNSwxMy4wNHY3OS42NVoiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNNzYxLjg1LDM1MS4xN2MwLDguNzUtNC4wNiwxMy4xMy0xMi4xOCwxMy4xM2gtNjYuMzR2LTIzLjMyaDQ4Ljgxdi00Ni4wNGgtMTkuNjF2MTUuMmgxMC40NXYyMC4zOWgtMzkuODJ2LTQ0LjkyYzAtOS4zMyw0LjcyLTEzLjk5LDE0LjE3LTEzLjk5aDUyLjM1YzguMTIsMCwxMi4xOCw0LjM1LDEyLjE4LDEzLjA0djY2LjUyWiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik04NDIuNzksMzY0LjI5aC0yOS43MnYtNjkuMzdoLTQwdi0yMy4zMmg1Ny41M2M4LjEyLDAsMTIuMTgsNC4zNSwxMi4xOCwxMy4wNHY3OS42NVoiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNOTM0LjYyLDI3NC45N2wtOS4yNCwzNC42NGMtMS4yNyw0LjcyLTQuMjYsNy4wOC04Ljk4LDcuMDhoLTguNjRsMTcuNjIsMjguMTZjMS45LDMuMDUsMi44NSw1LjQxLDIuODUsNy4wOHYxMi4zNWgtNzMuNzd2LTIzLjMyaDM1Ljk0bC0zOS42NS02Ni41MnYtMi44NWgzMC4yM2wxNy4wMiwyOC4zM2guNTJsNi43NC0yOC4zM2gyOS4zN3YzLjM3WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik0yNTQuNzcsNDM1LjU4aC0zMy43NXYtNDMuNzRoMjcuMTVjNC40LDAsNi42LDIuMjMsNi42LDYuNjl2MzcuMDVaTTI0Ny4zOSwzOTguNjloLTE4Ljk2djMwLjY5aDE4Ljk2di0zMC42OVoiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNMjcyLjgzLDQxNy41NmgtNy40MnYtMjUuNzJoNy40MnYyNS43MloiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNMzE3LjI2LDQyNS44YzAsNi42My0zLjA0LDkuOTUtOS4xMyw5Ljk1aC0xNS41M2MtMy4yMSwwLTUuNTItLjc5LTYuOTUtMi4zOHMtMi4xNC00LjExLTIuMTQtNy41NnYtMzMuOTZoMzMuNzV2MzMuOTZaTTMwOS44OCw0MjguODF2LTMwLjEyaC0xOC45NnYzMC4xMmgxOC45NloiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNMzQzLjk2LDQyOC4wOGMwLDIuMzEtLjY2LDQuMTQtMS45OCw1LjQ4LTEuMzIsMS4zNC0zLjEzLDIuMDItNS40NCwyLjAyaC0xMS4yNXYtNi44NWgxMS4zM3YtMzAuMDRoLTguMDN2LTYuODVoMTUuMzd2MzYuMjRaIi8+CiAgPHBhdGggZmlsbD0iIzAwNDMzZiIgZD0iTTM3MC43NCw0MjguMDhjMCwyLjMxLS42Niw0LjE0LTEuOTgsNS40OC0xLjMyLDEuMzQtMy4xMywyLjAyLTUuNDQsMi4wMmgtMTEuMjV2LTYuODVoMTEuMzN2LTMwLjA0aC04LjAzdi02Ljg1aDE1LjM3djM2LjI0WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik0zODguODgsNDE3LjU2aC03LjQydi0yNS43Mmg3LjQydjI1LjcyWiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik00MzEuNzIsNDI5LjM4YzAsNC4xMy0xLjkzLDYuMi01Ljc5LDYuMmgtMjYuMjl2LTYuODVoMjQuN3YtMzAuMDRoLTE3LjQ1djEyLjE5aDkuNzh2Ny4wOWgtMTcuMTJ2LTIwLjQ2YzAtMS42Ni41Mi0zLjAyLDEuNTUtNC4wOCwxLjAzLTEuMDYsMi4zOC0xLjU5LDQuMDQtMS41OWgyMC43OWMzLjg2LDAsNS43OSwyLjA1LDUuNzksNi4xNnYzMS4zOVoiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNNDQ5LjYyLDQzNS41OGgtNy40MnYtNDMuNzRoNy40MnY0My43NFoiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNNTEwLjMxLDQzNS41OGgtNy40MnYtMzYuODloLTE3LjI4djMyLjEyYzAsMS4xMi0uNDQsMi4xOS0xLjMsMy4yMi0uODcsMS4wMy0yLjA1LDEuNTUtMy41NSwxLjU1aC05LjA5di02Ljg1aDYuNnYtMzYuODloMjYuMjFjMy44OSwwLDUuODMsMi4wNSw1LjgzLDYuMTZ2MzcuNThaIi8+CiAgPHBhdGggZmlsbD0iIzAwNDMzZiIgZD0iTTUyOC42Miw0MzUuNThoLTcuNDJ2LTQzLjc0aDcuNDJ2NDMuNzRaIi8+CiAgPHBhdGggZmlsbD0iIzAwNDMzZiIgZD0iTTU3NC4xMSw0MzUuNThoLTguMDNsLTE2LjAyLTI0LjU0LTMuNzUsNC4wOHYyMC40NmgtNy40MnYtMTkuMzZjMC0xLjg1LjU4LTMuMzYsMS43NS00LjUzbDUuOTEtNS45MS04Ljg1LTEzLjA0di0uOWg4LjExbDE0LjkyLDIyLjcxLDMuNzktNC4zNnYtMTguMzRoNy4zNHYxNi42N2MwLDIuMjMtLjY0LDQuMDItMS45Miw1LjM4bC01LjcxLDUuOTEsOS44NiwxNC44NHYuOTRaIi8+CiAgPHBhdGggZmlsbD0iIzAwNDMzZiIgZD0iTTYxNy4zNiw0MzUuNThoLTcuNDJ2LTM2Ljg5aC0xNy4yOHYzMi4xMmMwLDEuMTItLjQ0LDIuMTktMS4zLDMuMjItLjg3LDEuMDMtMi4wNSwxLjU1LTMuNTUsMS41NWgtOS4wOXYtNi44NWg2LjZ2LTM2Ljg5aDI2LjIxYzMuODksMCw1LjgzLDIuMDUsNS44Myw2LjE2djM3LjU4WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik02NDQuMTQsNDI4LjA4YzAsMi4zMS0uNjYsNC4xNC0xLjk4LDUuNDgtMS4zMiwxLjM0LTMuMTMsMi4wMi01LjQ0LDIuMDJoLTExLjI1di02Ljg1aDExLjMzdi0zMC4wNGgtOC4wM3YtNi44NWgxNS4zN3YzNi4yNFoiLz4KICA8cGF0aCBmaWxsPSIjMDA0MzNmIiBkPSJNNjgzLjA3LDQyNy4zOWMwLDIuNTMtLjcyLDQuNTItMi4xNiw1Ljk5cy0zLjQ4LDIuMi02LjExLDIuMmgtMjEuMjh2LTYuODVoMjIuMjJ2LTMwLjA0aC0yMi4yMnYtNi44NWgyMS4yYzUuNTcsMCw4LjM2LDIuNjQsOC4zNiw3LjkxdjI3LjY0WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik03MzQuMzksNDI2LjA4YzAsNi4zMy0zLjAzLDkuNS05LjA5LDkuNWgtMjMuMDdjLTMuNCwwLTUuNzktLjgzLTcuMTctMi40OS0xLjIyLTEuNDEtMS44My0zLjctMS44My02Ljg1di0zNC40aDcuNDJ2MzcuMTRoOS40NnYtMzcuMTRoNy40MnYzNy4xNGg5LjU0di0zNy4xNGg3LjM0djM0LjI0WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik03NzguODIsNDM1LjU4aC0xOS4ydi02Ljg1aDExLjc4di0zMC4wNGgtMTUuMDhsLTQuNjEsMzYuODloLTcuMzR2LS4yNGw0LjczLTM2LjY1aC01Ljc1di02Ljg1aDI3Ljk2YzUsMCw3LjUsMi41LDcuNSw3LjV2MzYuMjRaIi8+CiAgPHBhdGggZmlsbD0iIzAwNDMzZiIgZD0iTTgzNC42Myw0NTIuMjloLTcuNDJsLTI3LjE1LTYwLjQ1aDcuM2wxMC45MiwyMy45N2guODJsNy45NS0yMy45N2g3LjV2LjczbC03LjU4LDIyLjYyYy0uODQsMi41NS0yLjU3LDMuODMtNS4xOCwzLjgzaC0ybDE0Ljg0LDMzLjI2WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik04NTAuODEsNDM1LjU4aC03LjQydi00My43NGg3LjQydjQzLjc0WiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik04OTIuNDMsNDI2LjY1YzAsNS45NS0yLjc2LDguOTMtOC4yOCw4LjkzaC0yNS4wM3YtNi44NWg5LjQybC03LjI2LTM2Ljg5aDcuMzRsNi45MywzNi44OWg5LjYydi0zNi44OWg3LjI2djM0LjgxWiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik05MTAuNTMsNDE3LjU2aC03LjQydi0yNS43Mmg3LjQydjI1LjcyWiIvPgogIDxwYXRoIGZpbGw9IiMwMDQzM2YiIGQ9Ik05MjguNDcsNDE3LjU2aC03LjQydi0yNS43Mmg3LjQydjI1LjcyWiIvPgo8L3N2Zz4K';
+  const logoUrl = 'https://www.tsarfaticonsulting.com/uploads/1/4/8/7/148792264/published/final-logo-tsarfati-png.png';
 
   let tableRows = '';
   if (rows && rows.length) {
     rows.forEach((r, i) => {
       const bg = i % 2 === 0 ? '#f0f7f6' : '#ffffff';
-      tableRows += '<tr style="background:' + bg + ';"><td style="padding:11px 16px;font-size:14px;color:#444;border-bottom:1px solid #e0eeec;">' + r[0] + '</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;border-bottom:1px solid #e0eeec;">' + r[1] + '</td></tr>';
+      tableRows += `<tr style="background:${bg};"><td style="padding:11px 16px;font-size:14px;color:#444;border-bottom:1px solid #e0eeec;">${r[0]}</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;border-bottom:1px solid #e0eeec;">${r[1]}</td></tr>`;
     });
   }
 
-  const clientHtml = '<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;}body{margin:0;padding:20px 0;background:#f0f4f3;font-family:Arial,Helvetica,sans-serif;direction:rtl;}.card{max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.10);}.header{background:#fff;padding:24px 20px 18px;text-align:center;border-bottom:2px solid #e8f0ef;}.title-bar{background:#1a5c52;padding:16px 24px;text-align:center;}.title-bar h2{margin:0;font-size:18px;color:#fff;}.title-bar p{margin:5px 0 0;font-size:12px;color:rgba(255,255,255,0.75);}.body{padding:20px 24px 10px;}.body p{margin:0 0 8px;font-size:14px;color:#333;line-height:1.8;}.table-wrap{padding:12px 18px;}.data-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #d0e8e4;}.data-table .thead td{background:#1a5c52;color:white;padding:11px 16px;font-size:13px;font-weight:700;}.data-table tr:nth-child(even) td{background:#f0f7f6;}.data-table tr:nth-child(odd) td{background:#fff;}.data-table td{padding:12px 16px;font-size:14px;border-bottom:1px solid #e8f0ef;color:#333;}.val{font-weight:700;color:#1a5c52;text-align:left;direction:ltr;}.disclaimer{margin:4px 18px 14px;background:#fffbf0;border:1px solid #ffe0b2;border-radius:8px;padding:10px 14px;font-size:11px;color:#999;line-height:1.7;text-align:center;}.cta{padding:6px 18px 26px;text-align:center;}.cta a{display:inline-block;background:#e8622a;color:white;padding:14px 36px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;}.footer{background:#1a5c52;padding:16px 20px;text-align:center;color:rgba(255,255,255,0.75);font-size:11px;line-height:2;}</style></head><body><div class="card"><div class="header"><img src="data:image/svg+xml;base64,' + LOGO_B64 + '" width="220" alt="צרפתי ייעוץ משכנתאות ופיננסים"></div><div class="title-bar"><h2>סיכום חישוב משכנתה</h2><p>עבור: ' + fullName + ' &nbsp;|&nbsp; ' + today + '</p></div><div class="body"><p>שלום ' + firstName + ',</p><p>מצורף סיכום חישוב המשכנתה שביצעת באתר שלנו. החישוב מבוסס על הנחות ממוצעות ומיועד לתת לך תמונה ראשונית.</p></div><div class="table-wrap"><table class="data-table"><tr class="thead"><td>פרטי החישוב</td><td class="val">ערך</td></tr>' + tableRows + '</table></div><div class="disclaimer">* החישוב מבוסס על הנחות ממוצעות ואינו מהווה התחייבות או הצעת מחיר. לניתוח מדויק — פנה אלינו לייעוץ.</div><div class="cta"><a href="https://wa.me/972544998889?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A4%D7%99%D7%A8%2C%20%D7%94%D7%A9%D7%AA%D7%9E%D7%A9%D7%AA%D7%99%20%D7%91%D7%9E%D7%97%D7%A9%D7%91%D7%95%D7%9F%20%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%94%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%99%D7%97%D7%AA%20%D7%99%D7%99%D7%A2%D7%95%D7%A5">📞 דבר עם אופיר עכשיו ←</a></div><div class="footer">054-499-8889 &nbsp;|&nbsp; tsarfati.consulting@gmail.com<br>נעמי שמר 5, קריית אונו &nbsp;|&nbsp; <a href="https://www.tsarfaticonsulting.com" style="color:rgba(255,255,255,0.9);text-decoration:underline;">www.tsarfaticonsulting.com</a></div></div></body></html>';
+  // הוסף נייד ומייל בתחתית הטבלה
+  tableRows += `<tr style="background:#f0f7f6;"><td style="padding:11px 16px;font-size:14px;color:#444;border-bottom:1px solid #e0eeec;">נייד</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;border-bottom:1px solid #e0eeec;">${phone}</td></tr>`;
+  tableRows += `<tr style="background:#fff;"><td style="padding:11px 16px;font-size:14px;color:#444;">מייל</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;">${email}</td></tr>`;
 
-  const ownerHtml = '<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"></head><body style="font-family:Arial,sans-serif;direction:rtl;padding:20px;background:#f5f5f5;"><div style="max-width:500px;margin:0 auto;background:white;border-radius:10px;padding:24px;border-right:5px solid #1a5c52;"><h2 style="color:#1a5c52;margin-top:0;">🔔 ליד חדש ממחשבון המשכנתה</h2><table cellpadding="8" cellspacing="0" style="width:100%;border-collapse:collapse;"><tr style="background:#f0f7f6;"><td style="font-weight:700;width:100px;">שם</td><td>' + fullName + '</td></tr><tr><td style="font-weight:700;">נייד</td><td><a href="tel:' + phone + '">' + phone + '</a></td></tr><tr style="background:#f0f7f6;"><td style="font-weight:700;">מייל</td><td><a href="mailto:' + email + '">' + email + '</a></td></tr><tr><td style="font-weight:700;">עולם</td><td>' + (world === 'purchase' ? 'רכישה' : world === 'refi' ? 'מחזור' : 'כל מטרה') + '</td></tr></table><div style="margin-top:16px;padding:12px;background:#f0f7f6;border-radius:6px;font-size:13px;color:#333;"><strong>פרטי חישוב:</strong><br>' + calcSummary + '</div><div style="margin-top:16px;text-align:center;"><a href="https://wa.me/972' + phone.replace(/^0/, '') + '?text=' + encodeURIComponent('היי ' + firstName + ', ראיתי שביצעת חישוב במחשבון המשכנתה שלי. אשמח לעזור!') + '" style="display:inline-block;background:#25d366;color:white;padding:10px 24px;border-radius:6px;text-decoration:none;font-weight:700;">📱 שלח וואטסאפ ל' + firstName + '</a></div></div></body></html>';
+  const clientHtml = `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box;}
+body{margin:0;padding:20px 0;background:#f0f4f3;font-family:Arial,Helvetica,sans-serif;direction:rtl;}
+.card{max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.10);}
+.header{background:#fff;padding:24px 20px 18px;text-align:center;border-bottom:2px solid #e8f0ef;}
+.title-bar{background:#1a5c52;padding:16px 24px;text-align:center;}
+.title-bar h2{margin:0;font-size:18px;color:#fff;}
+.title-bar p{margin:5px 0 0;font-size:12px;color:rgba(255,255,255,0.75);}
+.body{padding:20px 24px 10px;}
+.body p{margin:0 0 8px;font-size:14px;color:#333;line-height:1.8;}
+.table-wrap{padding:12px 18px;}
+.data-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #d0e8e4;}
+.data-table .thead td{background:#1a5c52;color:white;padding:11px 16px;font-size:13px;font-weight:700;}
+.data-table tr:nth-child(even) td{background:#f0f7f6;}
+.data-table tr:nth-child(odd) td{background:#fff;}
+.data-table td{padding:12px 16px;font-size:14px;border-bottom:1px solid #e8f0ef;color:#333;}
+.val{font-weight:700;color:#1a5c52;text-align:left;direction:ltr;}
+.disclaimer{margin:4px 18px 14px;background:#fffbf0;border:1px solid #ffe0b2;border-radius:8px;padding:10px 14px;font-size:11px;color:#999;line-height:1.7;text-align:center;}
+.cta{padding:6px 18px 26px;text-align:center;}
+.cta a{display:inline-block;background:#e8622a;color:white;padding:14px 36px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;}
+.footer{background:#1a5c52;padding:16px 20px;text-align:center;color:rgba(255,255,255,0.75);font-size:11px;line-height:2;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <img src="${logoUrl}" width="200" alt="צרפתי ייעוץ משכנתאות ופיננסים" style="display:block;margin:0 auto;">
+  </div>
+  <div class="title-bar">
+    <h2>סיכום חישוב משכנתה</h2>
+    <p>עבור: ${fullName} &nbsp;|&nbsp; ${today}</p>
+  </div>
+  <div class="body">
+    <p>שלום ${firstName},</p>
+    <p>מצורף סיכום חישוב המשכנתה שביצעת באתר שלנו. החישוב מבוסס על הנחות ממוצעות ומיועד לתת לך תמונה ראשונית.</p>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <tr class="thead"><td>פרטי החישוב</td><td class="val">ערך</td></tr>
+      ${tableRows}
+    </table>
+  </div>
+  <div class="disclaimer">* החישוב מבוסס על הנחות ממוצעות ואינו מהווה התחייבות או הצעת מחיר. לניתוח מדויק — פנה אלינו לייעוץ.</div>
+  <div class="cta">
+    <a href="https://wa.me/972544998889?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A4%D7%99%D7%A8%2C%20%D7%94%D7%A9%D7%AA%D7%9E%D7%A9%D7%AA%D7%99%20%D7%91%D7%9E%D7%97%D7%A9%D7%91%D7%95%D7%9F%20%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%94%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%99%D7%97%D7%AA%20%D7%99%D7%99%D7%A2%D7%95%D7%A5">📞 דבר עם אופיר עכשיו ←</a>
+  </div>
+  <div class="footer">
+    054-499-8889 &nbsp;|&nbsp; tsarfati.consulting@gmail.com<br>
+    נעמי שמר 5, קריית אונו &nbsp;|&nbsp; <a href="https://www.tsarfaticonsulting.com" style="color:rgba(255,255,255,0.9);text-decoration:underline;">www.tsarfaticonsulting.com</a>
+  </div>
+</div>
+</body></html>`;
+
+  const ownerHtml = `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head><meta charset="UTF-8"></head>
+<body style="font-family:Arial,sans-serif;direction:rtl;padding:20px;background:#f5f5f5;">
+  <div style="max-width:500px;margin:0 auto;background:white;border-radius:10px;padding:24px;border-right:5px solid #1a5c52;">
+    <h2 style="color:#1a5c52;margin-top:0;">🔔 ליד חדש ממחשבון המשכנתה</h2>
+    <table cellpadding="8" cellspacing="0" style="width:100%;border-collapse:collapse;">
+      <tr style="background:#f0f7f6;"><td style="font-weight:700;width:100px;">שם</td><td>${fullName}</td></tr>
+      <tr><td style="font-weight:700;">נייד</td><td><a href="tel:${phone}">${phone}</a></td></tr>
+      <tr style="background:#f0f7f6;"><td style="font-weight:700;">מייל</td><td><a href="mailto:${email}">${email}</a></td></tr>
+      <tr><td style="font-weight:700;">עולם</td><td>${world === 'purchase' ? 'רכישה' : world === 'refi' ? 'מחזור' : 'כל מטרה'}</td></tr>
+    </table>
+    <div style="margin-top:16px;padding:12px;background:#f0f7f6;border-radius:6px;font-size:13px;color:#333;">
+      <strong>פרטי חישוב:</strong><br>${calcSummary}
+    </div>
+    <div style="margin-top:16px;text-align:center;">
+      <a href="https://wa.me/972${phone.replace(/^0/, '')}?text=${encodeURIComponent('היי ' + firstName + ', ראיתי שביצעת חישוב במחשבון המשכנתה שלי. אשמח לעזור!')}" style="display:inline-block;background:#25d366;color:white;padding:10px 24px;border-radius:6px;text-decoration:none;font-weight:700;">📱 שלח וואטסאפ ל${firstName}</a>
+    </div>
+  </div>
+</body></html>`;
 
   async function sendMail(to, subject, html) {
     const res = await fetch('https://api.resend.com/emails', {
@@ -48,7 +125,7 @@ exports.handler = async (event) => {
 
   try {
     await sendMail(email, 'סיכום חישוב המשכנתה שלך — צרפתי ייעוץ משכנתאות', clientHtml);
-    await sendMail('tsarfati.consulting@gmail.com', 'ליד חדש — ' + fullName + ' — חישוב משכנתה', ownerHtml);
+    await sendMail('tsarfati.consulting@gmail.com', `ליד חדש — ${fullName} — חישוב משכנתה`, ownerHtml);
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
   } catch (err) {
     console.error('Email error:', err);
