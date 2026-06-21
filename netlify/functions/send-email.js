@@ -22,7 +22,7 @@ exports.handler = async (event) => {
   }
 
   const today = new Date().toLocaleDateString('he-IL');
-  const logoUrl = 'https://www.tsarfaticonsulting.com/uploads/1/4/8/7/148792264/published/final-logo-tsarfati-png.png';
+  const logoUrl = 'https://raw.githubusercontent.com/tsarfaticonsulting-source/mortgage-calculator/main/logo.png';
 
   let tableRows = '';
   if (rows && rows.length) {
@@ -31,10 +31,6 @@ exports.handler = async (event) => {
       tableRows += `<tr style="background:${bg};"><td style="padding:11px 16px;font-size:14px;color:#444;border-bottom:1px solid #e0eeec;">${r[0]}</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;border-bottom:1px solid #e0eeec;">${r[1]}</td></tr>`;
     });
   }
-
-  // הוסף נייד ומייל בתחתית הטבלה
-  tableRows += `<tr style="background:#f0f7f6;"><td style="padding:11px 16px;font-size:14px;color:#444;border-bottom:1px solid #e0eeec;">נייד</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;border-bottom:1px solid #e0eeec;">${phone}</td></tr>`;
-  tableRows += `<tr style="background:#fff;"><td style="padding:11px 16px;font-size:14px;color:#444;">מייל</td><td style="padding:11px 16px;font-size:14px;font-weight:700;color:#1a5c52;text-align:left;direction:ltr;">${email}</td></tr>`;
 
   const clientHtml = `<!DOCTYPE html>
 <html lang="he" dir="rtl">
