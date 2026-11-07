@@ -470,7 +470,7 @@
         <div class="r-card c3">
           <span class="r-icon">📅</span>
           <div class="r-label">החזר חודשי משוער</div>
-          <div class="r-val" id="p-res-payment">7,155 ₪</div>
+          <div class="r-val" id="p-res-payment"><span dir="ltr">6,940–7,370</span> ₪</div>
           <div class="r-sub" id="p-res-payment-sub">530₪/100K • 30 שנה</div>
         </div>
         <div class="r-card c4">
@@ -726,7 +726,8 @@
 
       <!-- Disclaimer -->
       <div class="calc-disclaimer">
-        החישוב מבוסס על הנחות ממוצעות. ישנם גורמים נוספים שיכולים לשנות את ההחזר החודשי שלך — שלח לי את הפרטים ואבדוק יחד איתך.
+        <span id="g-prime-note">החישוב מבוסס על ריבית פריים של 4.75%.</span>
+        שאר ההנחות ממוצעות. ישנם גורמים נוספים שיכולים לשנות את ההחזר החודשי שלך — שלח לי את הפרטים ואבדוק יחד איתך.
       </div>
 
       <!-- Email capture -->
@@ -816,7 +817,7 @@
           <div class="refi-card highlight">
             <div class="rc-label">החזר חדש משוער</div>
             <div class="rc-val" id="refi-r-new">—</div>
-            <div class="rc-sub">₪ לחודש (4.5%)</div>
+            <div class="rc-sub">₪ לחודש (הערכה)</div>
           </div>
           <div class="refi-card saving">
             <div class="rc-label">חיסכון חודשי</div>
@@ -828,7 +829,13 @@
             <div class="rc-val" id="refi-r-annual-save">—</div>
             <div class="rc-sub">₪ בשנה</div>
           </div>
+          <div class="refi-card saving" style="grid-column:1 / -1;">
+            <div class="rc-label">חיסכון כולל לאורך חיי המשכנתה</div>
+            <div class="rc-val" id="refi-r-total-save">—</div>
+            <div class="rc-sub" id="refi-r-total-sub">₪</div>
+          </div>
         </div>
+        <div class="calc-disclaimer" id="refi-note" style="display:none;margin:0 0 6px;"></div>
       </div>
 
     </div><!-- /refi-results -->
@@ -940,6 +947,17 @@ function anim(el, txt) {
   el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
 }
 
+// Payment per 100K ₪ by term (years) — shared by purchase and refi
+const TERM_RATE_PER_HK = { 30: 530, 25: 570, 20: 630, 15: 762, 10: 1034 };
+
+// Show a monthly payment as an estimated range (±3%, rounded to 10 ₪)
+function setRange(el, base) {
+  if (!el) return;
+  const r10 = v => Math.round(v / 10) * 10;
+  el.innerHTML = '<span dir="ltr">' + fmt(r10(base * 0.97)) + '–' + fmt(r10(base * 1.03)) + '</span> ₪';
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+}
+
 // Shpitzer monthly payment
 function shpitzer(principal, annualRate, years) {
   const r = (annualRate / 100) / 12;
@@ -992,16 +1010,35 @@ function calcRefi() {
     return;
   }
 
-  const r = 0.045 / 12;
-  const n = refiNewTerm * 12;
-  const newPayment = balance * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+  // Same per-100K table as the purchase calculator
+  const newPayment = (balance / 100000) * (TERM_RATE_PER_HK[refiNewTerm] || TERM_RATE_PER_HK[30]);
   const monthlySave = currentPayment - newPayment;
   const annualSave = monthlySave * 12;
+  // Total remaining payments: current loan vs. new loan
+  const totalCurrent = currentPayment * termYears * 12;
+  const totalNew = newPayment * refiNewTerm * 12;
+  const totalSave = totalCurrent - totalNew;
+  const sign = v => (v >= 0 ? '+' : '');
 
   document.getElementById('refi-r-current').textContent = fmt(currentPayment) + ' ₪';
-  document.getElementById('refi-r-new').textContent = fmt(newPayment) + ' ₪';
-  document.getElementById('refi-r-monthly-save').textContent = (monthlySave >= 0 ? '+' : '') + fmt(monthlySave) + ' ₪';
-  document.getElementById('refi-r-annual-save').textContent = (annualSave >= 0 ? '+' : '') + fmt(annualSave) + ' ₪';
+  setRange(document.getElementById('refi-r-new'), newPayment);
+  document.getElementById('refi-r-monthly-save').textContent = sign(monthlySave) + fmt(monthlySave) + ' ₪';
+  document.getElementById('refi-r-annual-save').textContent = sign(annualSave) + fmt(annualSave) + ' ₪';
+  document.getElementById('refi-r-total-save').textContent = sign(totalSave) + fmt(totalSave) + ' ₪';
+  document.getElementById('refi-r-total-sub').textContent =
+    'סה״כ תשלומים: ' + fmt(totalCurrent) + ' ₪ היום מול ' + fmt(totalNew) + ' ₪ אחרי מחזור';
+
+  const note = document.getElementById('refi-note');
+  let msg = '';
+  if (monthlySave > 0 && totalSave < 0) {
+    msg = 'ההחזר החודשי יורד, אבל בגלל הארכת התקופה סך התשלומים עולה. יש דרכים לבנות את התמהיל כך שתרוויח גם בטווח הארוך — שלח לי את הפרטים ואבדוק.';
+  } else if (monthlySave <= 0 && totalSave <= 0) {
+    msg = 'לפי ההערכה הכללית אין כאן חיסכון ברור — אבל הכל תלוי במסלולים ובריביות הספציפיים שלך. שלח לי את דוח היתרות ואבדוק לעומק.';
+  } else if (totalSave > 0) {
+    msg = 'יש פוטנציאל חיסכון. הסכום המדויק תלוי בתמהיל ובריביות שלך — שלח לי את הפרטים ואחזור אליך עם בדיקה מסודרת.';
+  }
+  note.textContent = msg;
+  note.style.display = msg ? 'block' : 'none';
 
   document.getElementById('refi-results').classList.add('visible');
 }
@@ -1071,7 +1108,7 @@ function calcPurchase() {
 
   anim($('p-res-mortgage'), fmt(mortgage)+' ₪');
   anim($('p-res-equity'),   fmt(equity)+' ₪');
-  anim($('p-res-payment'),  fmt(payment)+' ₪');
+  setRange($('p-res-payment'), payment);
   anim($('p-res-income'),   fmt(income)+' ₪');
   $('p-res-payment-sub').textContent = pRatePerHK+'₪/100K • '+pTermLabel;
   // LTV: use property input as price source
@@ -1184,7 +1221,7 @@ function calcGeneral() {
     const income = payment / 0.4;
     anim($('g-res-loan'), fmt(loan)+' ₪');
     $('g-res-loan-sub').textContent = getGSubLabel();
-    anim($('g-res-payment'), fmt(payment)+' ₪');
+    setRange($('g-res-payment'), payment);
     anim($('g-res-income'),  fmt(income)+' ₪');
     // LTV
     if (hasProperty) {
@@ -1359,12 +1396,24 @@ document.querySelectorAll('[data-gterm]').forEach(b=>b.classList.toggle('active'
 $('g-term-display').textContent='30 שנה';
 calcGeneral(); // general init
 
+function updatePrimeNote(asOf) {
+  const el = $('g-prime-note');
+  if (!el) return;
+  let txt = 'החישוב מבוסס על ריבית פריים של ' + PRIME + '%';
+  if (asOf) {
+    const d = new Date(asOf);
+    if (!isNaN(d)) txt += ' (נכון ל-' + d.toLocaleDateString('he-IL') + ', לפי בנק ישראל)';
+  }
+  el.textContent = txt + '.';
+}
+
 // Load the current prime rate (cached server-side for a week)
 fetch('/.netlify/functions/get-prime')
   .then(r => r.ok ? r.json() : null)
   .then(d => {
     const p = d && Number(d.prime);
     if (p > 0 && p < 20 && p !== PRIME) { PRIME = p; calcGeneral(); }
+    updatePrimeNote(d && d.source === 'boi' ? d.asOf : null);
   })
   .catch(() => {});
 
@@ -1408,9 +1457,10 @@ function getCalcData(world) {
     const newPay = document.getElementById('refi-r-new')?.textContent || '—';
     const monthlySave = document.getElementById('refi-r-monthly-save')?.textContent || '—';
     const annualSave = document.getElementById('refi-r-annual-save')?.textContent || '—';
+    const totalSave = document.getElementById('refi-r-total-save')?.textContent || '—';
     const remainTerm = (document.getElementById('refi-term')?.value || '—') + ' שנה';
     const newTerm = refiNewTerm + ' שנה';
-    return { current, newPay, monthlySave, annualSave, remainTerm, newTerm, world: 'refi' };
+    return { current, newPay, monthlySave, annualSave, totalSave, remainTerm, newTerm, world: 'refi' };
   } else {
     const loan = document.getElementById('g-res-loan')?.textContent ||
                  document.getElementById('g-grace-loan')?.textContent ||
@@ -1473,10 +1523,11 @@ function generatePDF(data) {
     rows.push(['Required Income', data.income]);
   } else if (data.world === 'refi') {
     rows.push(['Current Payment', data.current]);
-    rows.push(['New Est. Payment (4.5%)', data.newPay]);
+    rows.push(['New Est. Payment', data.newPay]);
     rows.push(['New Term', data.newTerm]);
     rows.push(['Monthly Saving', data.monthlySave]);
     rows.push(['Annual Saving', data.annualSave]);
+    rows.push(['Total Saving', data.totalSave]);
     rows.push(['Remaining Term', data.remainTerm]);
   } else {
     rows.push(['Loan Amount', data.loan]);
@@ -1573,10 +1624,11 @@ async function sendPdfEmail(world) {
     } else if (data.world === 'refi') {
       rows = [
         ['החזר חודשי נוכחי', data.current],
-        ['החזר חדש משוער (4.5%)', data.newPay],
+        ['החזר חדש משוער', data.newPay],
         ['פריסה חדשה', data.newTerm],
         ['חיסכון חודשי משוער', data.monthlySave],
         ['חיסכון שנתי משוער', data.annualSave],
+        ['חיסכון כולל משוער', data.totalSave],
         ['תקופה נותרת', data.remainTerm],
       ];
     } else {
