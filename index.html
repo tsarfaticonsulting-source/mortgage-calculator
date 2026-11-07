@@ -392,10 +392,10 @@
               <button class="term-dot" data-rate="630" data-years="20" onclick="setTermScale(this)">
                 <span class="term-dot-circle"></span><span class="term-dot-label">20</span>
               </button>
-              <button class="term-dot" data-rate="770" data-years="15" onclick="setTermScale(this)">
+              <button class="term-dot" data-rate="762" data-years="15" onclick="setTermScale(this)">
                 <span class="term-dot-circle"></span><span class="term-dot-label">15</span>
               </button>
-              <button class="term-dot" data-rate="1050" data-years="10" onclick="setTermScale(this)">
+              <button class="term-dot" data-rate="1034" data-years="10" onclick="setTermScale(this)">
                 <span class="term-dot-circle"></span><span class="term-dot-label">10</span>
               </button>
             </div>
@@ -872,14 +872,20 @@
 // ═══════════════════════════════════════════
 // INTERNAL RATE PARAMETERS (not displayed)
 // ═══════════════════════════════════════════
-const PRIME = 5.25;
-const RATES = {
-  bank_rank1_general:    PRIME + 1.0,   // 6.25%
-  bank_rank1_renovation: PRIME + 0.0,   // 5.25%
-  nonbank_rank1:         PRIME + 3.0,   // 8.25%
-  nonbank_rank1_balloon: PRIME + 4.5,   // 9.75%
-  nonbank_rank2:         PRIME + 4.5,   // 9.75%
+// Fallback prime rate; replaced on load by the live value from
+// /.netlify/functions/get-prime (Bank of Israel rate + 1.5, refreshed weekly).
+let PRIME = 4.75;
+const RATE_SPREADS = {
+  bank_rank1_general:    1.0,
+  bank_rank1_renovation: 0.0,
+  nonbank_rank1:         3.0,
+  nonbank_rank1_balloon: 4.5,
+  nonbank_rank2:         4.5,
 };
+const RATES = {};
+Object.keys(RATE_SPREADS).forEach(k => {
+  Object.defineProperty(RATES, k, { get: () => PRIME + RATE_SPREADS[k], enumerable: true });
+});
 
 // ═══════════════════════════════════════════
 // PURCHASE WORLD STATE
@@ -1352,6 +1358,15 @@ if($('g-term-fill')) { $('g-term-fill').style.width='100%'; $('g-term-fill').sty
 document.querySelectorAll('[data-gterm]').forEach(b=>b.classList.toggle('active', b.dataset.gterm==='30'));
 $('g-term-display').textContent='30 שנה';
 calcGeneral(); // general init
+
+// Load the current prime rate (cached server-side for a week)
+fetch('/.netlify/functions/get-prime')
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    const p = d && Number(d.prime);
+    if (p > 0 && p < 20 && p !== PRIME) { PRIME = p; calcGeneral(); }
+  })
+  .catch(() => {});
 
 // Property value input events
 const gPropInput = $('g-property-input');
